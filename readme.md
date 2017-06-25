@@ -1,5 +1,7 @@
 # Apache Localhost Homepage
 
+![Screenshot](https://github.com/dick-ey/localhost-homepage/blob/master/Screenshot.png?raw=true)
+
 This is a simple landing page to replace the default Apache webpage on your localhost server. This is useful for machines that have many development sites at one time.
 
 ## Features
