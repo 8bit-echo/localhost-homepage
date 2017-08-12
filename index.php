@@ -193,8 +193,15 @@
         letter-spacing: 1.5px;
       }
       
+      .search-container{
+        display: flex;
+        width: 40%;
+        margin: 0 auto;
+        align-items: baseline;
+      }
+      
       .search {
-        width: 20%;
+        width: 100%;
         padding: 0 2em;
         text-align: center;
         background: transparent;
@@ -209,6 +216,25 @@
         border-bottom-color: #008DBA;
         transition: ease .5s;
       }
+      
+      .cancel{
+        position: relative;
+        right: 30px;
+        bottom: 3px;
+        font-size: 1.4em;
+        background: rgba(192, 192, 192, 0.6);
+        color: #e3e2e4;
+        cursor: pointer;
+        padding: 3px 9px;
+        border-radius: 50%;
+      }
+      .cancel:hover{
+        color: darkgrey;
+      }
+      
+      .hide{
+        display: none;
+      }
       </style>
   </head>
   <body>
@@ -219,13 +245,16 @@
     </header>
     <main class="container">
       <div id="sites">
-        <input type="search" ref="search" v-model="search" class="search" autofocus>
+        <div class="search-container">
+          <input type="search" ref="search" v-model="search" class="search" autofocus>
+          <div class="cancel" :class="{hide : isHidden}" @click="clearInput">&times;</div>
+        </div>
         <ul class="list">          
           <!-- VUE APP -->
           <li v-for="site in filteredList">
-            <a v-bind:href="site.URL" target="_blank" class="site-container">
+            <a :href="site.URL" target="_blank" class="site-container">
               <span>{{site.PrettyName}}</span>
-              <img v-bind:src="getImgPath()">
+              <img :src="getImgPath()">
             </a>
           </li>
         </ul>
@@ -245,6 +274,7 @@
         el: '#sites',
         data: {
           search: '',
+          isHidden: true,
           sites: sites,
           getImgPath: function(){
             // TODO: write function to grab favicon
@@ -259,6 +289,16 @@
         computed: {
           filteredList(){
             return this.sites.filter(site => {return site.PrettyName.toLowerCase().includes(this.search.toLowerCase())})
+          }
+        },
+        methods:{
+          clearInput(){
+            this.search = '';
+          }
+        },
+        watch:{
+          search: function() {            
+            this.isHidden = (this.search === '');
           }
         }
       });
